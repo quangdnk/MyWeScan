@@ -31,7 +31,7 @@ public final class CameraScannerViewController: UIViewController {
     /// The callback to caller view to send back success or fail.
     public weak var delegate: CameraScannerViewOutputDelegate?
 
-    private var captureSessionManager: CaptureSessionManager?
+    var captureSessionManager: CaptureSessionManager?
     private let videoPreviewLayer = AVCaptureVideoPreviewLayer()
 
     /// The view that shows the focus rectangle (when the user taps to focus, similar to the Camera app)
@@ -161,6 +161,13 @@ public final class CameraScannerViewController: UIViewController {
 
     public func toggleAutoScan() {
         isAutoScanEnabled.toggle()
+    }
+    
+    public func rescan() {
+        CaptureSession.current.isEditing = false
+        quadView.removeQuadrilateral()
+        captureSessionManager?.start()
+        UIApplication.shared.isIdleTimerDisabled = true
     }
 }
 
